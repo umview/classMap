@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>21班の家谱</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <style>
+        .info-tip {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            background-color: #fff;
+            height: 35px;
+            text-align: left;
+        }
+    </style>
+    <script src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script src="http://webapi.amap.com/maps?v=1.3&key=f89a8e8a34435c72dd4d89a5c3b0eeb4"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+</head>
+<body>
+<div id="container"></div>
+<div class="button-group">
+    <input id="setFitView" class="button" type="button" value="地图自适应显示"/>
+</div>
+<div class="info-tip">
+    <div id="centerCoord"></div>
+    <div id="tips"></div>
+</div>
+<script>
+    var map = new AMap.Map('container', {
+        resizeEnable: true,
+        center: [115.766769,32.901409],
+        zoom: 5
+    });    
+    map.clearMap();  // 清除地图覆盖物
+var data_info = [
+[116.347313,39.981771,"北京航空航天大学<br><B>张美艳</B><br>生物医学工程类<br><B>魏一男</B><br>北京航空航天大学<br>金融学",-60,20],
+[113.298379,23.096705,"肖鉴哲<br>中山大学<br>计算机类",20,20],
+[116.310015,40.089688,"华北电力大学(北京)<br><B>王涵</B><br>金融类<br><B>尤建</B><br>华北电力大学(北京)<br>新能源科学与工程",-100,20],
+[117.064623,39.240096,"赵海欣<br>河北工业大学<br>土木工程",-20,-20],
+[117.140299,39.061907,"天津理工大学<br><B>朱冠华</B><br>机械电子工程<br><B>李子昂</B><br>电气工程及其自动化<br><B>刘家昌</B><br>保险学<br><B>臧江南</B><br>物联网",50,-50],
+[117.12707,39.062091,"天津师范大学<br><B>卢畅&曹式明</B><br>数学与应用数学<br><B>高悦</B><br>化学<br><B>刘思奇</B><br>汉语国际教育<br><B>黄韵帆</B><br>生物科学",20,20],
+[116.421248,39.971642,"北京化工大学<br><B>张子威</B><br>测控技术与仪器<br><B>高山</B><br>机械设计制造及其自动化",-50,-80],
+[116.34213,40.043972,"田畅<br>北京信息科技大学<br>光电信息科学与工程",20,-50],
+[117.167299,39.103693,"杨昕宇<br>南开大学<br>旅游管理类",20,-60],
+[117.11173,39.065645,"天津工业大学<br><B>杨翼&郭浩楠</B><br>服装设计与工程<br><B>裘玉峰</B><br>数学与应用数学<br><B>刘容均</B><br>工业设计",-50,20],
+[117.170383,39.110144,"天津大学<br><B>孙凯</B><br>光电信息科学与工程<br><B>孙铄</B><br>电子科学与技术",-100,-20],
+[125.313219,43.837237,"石春晓<br>长春理工大学<br>金融工程",20,20],
+[103.986241,30.764382,"刘梦竹<br>西南交通大学<br>工商管理类",20,20],
+[116.359072,39.990221,"王玉凯<br>北京科技大学<br>测控技术与仪器",20,20],
+[116.352795,39.863488,"王盼<br>首都医科大学<br>临床医学",20,20],
+[119.539445,39.906497,"孙梦<br>燕山大学<br>车辆工程",20,20],
+[116.358103,39.961554,"乔昊<br>北京邮电大学<br>通信工程",20,20],
+[116.347459,40.005875,"刘开颜<br>北京林业大学<br>园林",-50,-20],
+[118.843295,32.033084,"南京农业大学<br><B>牛元纯</B><br>自动化<br><B>牛维娜</B><br>农业机械化及其自动化",20,-70],
+[112.944703,28.178119,"齐婉彤<br>湖南大学<br>应用化学",20,20],
+[108.966933,34.237085,"张淙洲<br>西安建筑科技大学<br>车辆工程",20,20],
+[120.34365,30.311532,"王浩<br>杭州电子科技大学<br>材料类",20,30],
+[121.529038,38.869782,"诸葛岩<br>大连海事大学<br>交通管理",-80,20],
+[117.272595,39.068787,"天津科技大学<br><B>黄智超</B><br>信息与计算科学<br><B>赵越</B><br>生物工程",20,-80],
+[123.570051,41.826563,"池鑫满<br>沈阳农业大学<br>植物生产类",20,20],
+[116.31088,39.99281,"杨晓含<br>北京大学<br>工商管理类",-20,-20],
+[117.166726,39.115023,"张楚懿<br>天津中医药大学<br>中西医临床医学",20,20],
+[118.715506,32.203356,"董晨晖<br>南京信息工程大学<br>海洋技术",-50,-10],
+[118.857244,32.026884,"何泽人<br>南京理工大学<br>材料系",-100,20],
+[117.209549,39.107954,"天津外国语大学<br><B>李双阳</B><br>英语<br><B>曲家池</B><br>商务英语",20,-50],
+[121.551371,38.878306,"李汉阳<br>东北财经大学<br>工商管理类",20,20],
+[113.029574,28.246669,"滕梓恒<br>长沙大学<br>工程造价",20,-30],
+[120.739895,31.273504,"田峰<br>西交利物浦大学<br>电气工程及其自动化",-50,20],
+[106.468822,29.564916,"马玥<br>重庆大学<br>工程管理",20,20],
+[121.546816,31.276486,"赵逸峰<br>上海电力大学<br>电气工程及其自动化",20,20],
+[108.291451,22.841658,"祖思达<br>广西大学<br>环境工程",20,20],
+[121.775233,39.04508,"杨江莹<br>大连民族大学<br>电子信息工程",20,-20],
+[115.516855,38.872735,"冯家辉<br><br>河北大学<br>广告学",-50,20],
+[114.534811,38.046379,"崔蕴毅<br><br>河北医科大学",20,20],
+[103.861929,36.046187,"兰州大学<br><B>周帅</B><br>经济系<br><B>武豪</B><br>地质类",20,20],
+[108.984598,34.246033,"许瑞鹏<br>西安交通大学<br>电子信息类",20,-30],
+[117.276612,39.060648,"王皓琪<br>天津财经大学",20,20],
+[114.317138,30.422026,"文钰恬<br>武汉东湖学院<br>财务管理",-80,-30],
+[115.922863,28.676961,"张钊<br>江西师范大学<br>数学与应用数学",20,20],
+[98.99117,39.579728,"当然还有<br><B>赵锡鹏,屈静<br>王皓研,宋锦轩,王浩楠</B><br>标签打在这，并不意味着他们就在这<br>不管因为什么，我们<B>21班</B>永远<B>67</B>个人，一个也不能少<br><a href=http://21.umview.com><B>21.umview.com</B></a>的地址也永远不会变<br>总之，我们衷心祝他们好运<br>同样祝我们自己定能在祖国版图上写出自己辉煌的一笔",0,0]
+				];
+	for(i=0;i<data_info.length;i++){
+
+    var marker = new AMap.Marker({
+        position: [data_info[i][0],data_info[i][1]]
+    });
+    marker.setMap(map);
+    
+
+    // 设置label标签
+    marker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
+        offset: new AMap.Pixel(data_info[i][3],data_info[i][4]),//修改label相对于maker的位置
+        content: data_info[i][2]
+    })
+
+};
+        
+    
+    
+</script>
+</body>
+<foot><center>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_sterat_icon_1259994473'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1259994473%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script></center></foot>
+</html>
